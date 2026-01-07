@@ -2,31 +2,38 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * Custom primary key
+     */
+    protected $primaryKey = 'user_id';
+
+    /**
+     * Auto-incrementing BIGINT primary key
+     */
+    public $incrementing = true;
+    protected $keyType = 'int';
+
+    /**
+     * Mass assignable columns (match your DB)
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'role',
+        'depart_id',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
+     * Hidden fields
      */
     protected $hidden = [
         'password',
@@ -34,9 +41,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Casts
      */
     protected function casts(): array
     {
@@ -44,5 +49,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /* -----------------------
+     | Relationships
+     |------------------------
+     */
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'depart_id', 'depart_id');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'user_id', 'user_id');
+    }
+
+    public function approvalsMade()
+    {
+        return $this->hasMany(Approval::class, 'admin_user_id', 'user_id');
+    }
+
+    /* -----------------------
+     | Helpers
+     |------------------------
+     */
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 }
