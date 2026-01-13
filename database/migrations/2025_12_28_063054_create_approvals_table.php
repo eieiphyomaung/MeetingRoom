@@ -12,19 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('approvals', function (Blueprint $table) {
-                $table->id('approval_id');
+        $table->bigIncrements('approval_id');
 
-        $table->unsignedBigInteger('reserve_id');
-        $table->unsignedBigInteger('user_id');
+    $table->unsignedBigInteger('reserve_id');
+    $table->unsignedBigInteger('admin_user_id');
 
-        // approved / rejected
-        $table->enum('decision_status', ['approved', 'rejected']);
+    $table->enum('decision_status', ['approved','rejected']);
+    $table->string('decision_note')->nullable();
+    $table->timestamp('decided_at')->useCurrent();
 
-        $table->timestamp('decided_at')->useCurrent();
-        $table->string('decision_note')->nullable();
+    $table->timestamps();
 
-        $table->foreign('reserve_id')->references('reserve_id')->on('reservations');
-        $table->foreign('user_id')->references('user_id')->on('users');
+    $table->foreign('reserve_id')->references('reserve_id')->on('reservations')->cascadeOnDelete();
+    $table->foreign('admin_user_id')->references('user_id')->on('users')->cascadeOnDelete();
         });
     }
 

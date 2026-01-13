@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('activity_logs', function (Blueprint $table) {
-            $table->id('act_id');
+         $table->bigIncrements('act_id');
 
-        $table->unsignedBigInteger('user_id');
-        $table->string('action')->nullable();
+    $table->unsignedBigInteger('user_id');
+    $table->string('action');
+    $table->timestamps();
 
-        $table->timestamp('created_at')->useCurrent();
-
-        $table->foreign('user_id')->references('user_id')->on('users');
+    $table->foreign('user_id')->references('user_id')->on('users')->cascadeOnDelete();
         });
     }
 

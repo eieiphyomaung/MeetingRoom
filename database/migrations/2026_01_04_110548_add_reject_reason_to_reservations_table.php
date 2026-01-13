@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
-            $table->bigIncrements('depart_id');
-            $table->string('depart_name')->unique();
-            $table->timestamps();
-        });
+        Schema::table('reservations', function (Blueprint $table) {
+        $table->string('reject_reason', 255)->nullable()->after('status');
+    });
     }
 
     /**
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::table('reservations', function (Blueprint $table) {
+        $table->dropColumn('reject_reason');
+    });
     }
 };

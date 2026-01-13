@@ -10,19 +10,21 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('departments', function (Blueprint $table) {
-            $table->bigIncrements('depart_id');
-            $table->string('depart_name')->unique();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::table('reservations', function (Blueprint $table) {
+        if (!Schema::hasColumn('reservations', 'reject_reason')) {
+            $table->string('reject_reason')->nullable()->after('status');
+        }
+    });
+}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::table('reservations', function (Blueprint $table) {
+            //
+        });
     }
 };
