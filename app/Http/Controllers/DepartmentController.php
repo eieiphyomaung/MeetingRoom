@@ -28,7 +28,6 @@ class DepartmentController extends Controller
             'badge_text' => ['nullable', 'string', 'max:5'],
         ]);
 
-
         if (empty($data['badge_text'])) {
             $data['badge_text'] = $this->makeBadgeText($data['depart_name']);
         }

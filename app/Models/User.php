@@ -10,20 +10,14 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * Custom primary key
-     */
+    // User primary key
+
     protected $primaryKey = 'user_id';
 
-    /**
-     * Auto-incrementing BIGINT primary key
-     */
     public $incrementing = true;
+
     protected $keyType = 'int';
 
-    /**
-     * Mass assignable columns (match your DB)
-     */
     protected $fillable = [
         'username',
         'email',
@@ -32,17 +26,13 @@ class User extends Authenticatable
         'depart_id',
     ];
 
-    /**
-     * Hidden fields
-     */
+    // Hidden fields
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Casts
-     */
     protected function casts(): array
     {
         return [
@@ -51,14 +41,9 @@ class User extends Authenticatable
         ];
     }
 
-    /* -----------------------
-     | Relationships
-     |------------------------
-     */
-
     public function department()
     {
-         return $this->belongsTo(Department::class, 'depart_id', 'depart_id');
+        return $this->belongsTo(Department::class, 'depart_id', 'depart_id');
     }
 
     public function reservations()
@@ -70,11 +55,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Approval::class, 'admin_user_id', 'user_id');
     }
-
-    /* -----------------------
-     | Helpers
-     |------------------------
-     */
 
     public function isAdmin(): bool
     {

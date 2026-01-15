@@ -15,7 +15,7 @@ class CalendarController extends Controller
 
         $rooms = Room::where('is_active', 1)->orderBy('room_name')->get();
 
-        // User sees ONLY their bookings, also allow both statuses
+        // User sees only their bookings, also allow both statuses
         $reservations = Reservation::with(['room', 'user.department'])
             ->where('user_id', Auth::id())
             ->whereDate('reserve_date', $date)

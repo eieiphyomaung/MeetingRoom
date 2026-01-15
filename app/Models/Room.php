@@ -8,7 +8,7 @@ class Room extends Model
 {
     protected $primaryKey = 'room_id';
 
-    protected $fillable = ['room_name', 'room_type', 'capacity', 'floor','equipment', 'is_active'];
+    protected $fillable = ['room_name', 'room_type', 'capacity', 'floor', 'equipment', 'is_active'];
 
     protected $casts = [
         'equipment' => 'array',

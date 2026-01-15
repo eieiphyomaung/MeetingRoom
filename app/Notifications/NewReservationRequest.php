@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Models\Reservation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\DatabaseMessage;
 
 class NewReservationRequest extends Notification
 {
@@ -20,7 +19,7 @@ class NewReservationRequest extends Notification
 
     public function toDatabase($notifiable): array
     {
-        $r = $this->reservation->load('room','user');
+        $r = $this->reservation->load('room', 'user');
 
         return [
             'type' => 'reservation_pending',
